@@ -18,6 +18,30 @@ npm start
 ```
 Then navigate to http://localhost:3000 in your browser.
 
+## Build the docker image
+```powershell
+$version="1.0.0"
+$appname="playeconomyapp"
+docker build -t "$appname.azurecr.io/play.frontend:$version" .
+```
+
+## Run the docker image
+```powershell
+docker run -it --rm -p 3000:80 --name frontend "$appname.azurecr.io/play.frontend:$version"
+```
+
+## Publish the docker image
+```powershell
+az acr login --name $appname
+docker push "$appname.azurecr.io/play.frontend:$version"
+```
+
+## Install the Helm chart
+```powershell
+$namespace="frontend"
+helm install frontend-client ./helm --create-namespace -n $namespace
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
